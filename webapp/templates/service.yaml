@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-default-backend
+  namespace: {{ default "default-backend-ns" .Values.namespace.name }}
+spec:
+  selector:
+    app: default-backend-app
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

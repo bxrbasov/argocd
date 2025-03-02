@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.cm.name | default "default-backend-cm" }}
+  namespace: {{ .Values.namespace.name | default "default-backend-ns" }}
+data: 
+  {{ include "default.conf" .}}

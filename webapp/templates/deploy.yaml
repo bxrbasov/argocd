@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deploy.name | default "default-backend-app" }}
+  namespace: {{ .Values.namespace.name | default "default-backend-ns" }}
+spec:
+  replicas: {{ .Values.deploy.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app: default-backend-app
+  template:
+    metadata:
+      labels:
+        app: default-backend-app
+    spec:
+      containers:
+        - name: {{ .Values.deploy.container.name | default "nginx-default-backend" }}
+          image: nginx:latest
+          ports:
+            - containerPort: 8080
+          {{- include "deploy.container.settings" . | indent 10}}
+      volumes:
+        - name: {{ .Values.deploy.container.volume.name | default "nginx-default-backend-conf" }}
+          configMap:
+            name: {{ .Values.cm.name | default "default-backend-cm" }}
